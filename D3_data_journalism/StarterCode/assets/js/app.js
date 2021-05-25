@@ -34,11 +34,13 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
     // Step 2: Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-        .domain([8, d3.max(censusData, d => d.poverty)])
+        .domain([d3.min(censusData, d => d.poverty), 
+                 d3.max(censusData, d => d.poverty)])
         .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(censusData, d => d.healthcare)])
+        .domain([d3.min(censusData, d => d.healthcare), 
+                 d3.max(censusData, d => d.healthcare)])
         .range([height, 0]);
 
     // Step 3: Create axis functions
@@ -64,7 +66,6 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
         .data(censusData)
         .enter()
         .append("g")
-        .attr("transform", function (d) { return "translate(" + d.poverty + ",80)" })
 
     /*Create the circle for each block */
     var circlesGroup = elemEnter.append("circle")
@@ -97,10 +98,10 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
     // ==============================
     circlesGroup.on("mouseover", function (data) {
         toolTip.show(data, this)
-        d3.select(this)
-          .transition()
-          .duration(1000)
-          .attr("border","5px")
+        // d3.select(this)
+        //   .transition()
+        //   .duration(1000)
+        //   .attr("border","5px")
 
     })
         // onmouseout event

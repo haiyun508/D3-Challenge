@@ -36,7 +36,10 @@
   fill: #89bdd3;
   stroke: #e3e3e3;
 }
-
+.stateCircle:hover {
+  border: 5px solid #333333;
+  overflow: hidden;
+}
 .chart {
   display: block;
   margin: 0;

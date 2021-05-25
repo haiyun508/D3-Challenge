@@ -28,6 +28,8 @@
   font-family: sans-serif;
   fill: #fff;
   text-anchor: middle;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .stateCircle {
@@ -59,7 +61,7 @@
   }
 
   .aText {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 

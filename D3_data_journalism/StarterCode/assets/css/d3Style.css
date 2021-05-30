@@ -37,8 +37,9 @@
   stroke: #e3e3e3;
 }
 .stateCircle:hover {
-  border: 5px solid #333333;
   overflow: hidden;
+  stroke:black;
+  stroke-width: 2px;
 }
 .chart {
   display: block;

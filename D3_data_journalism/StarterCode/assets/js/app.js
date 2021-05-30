@@ -34,13 +34,13 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
     // Step 2: Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-        .domain([d3.min(censusData, d => d.poverty), 
-                 d3.max(censusData, d => d.poverty)])
+        .domain([d3.min(censusData, d => d.poverty)*0.9, 
+                 d3.max(censusData, d => d.poverty)*1.1])
         .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-        .domain([d3.min(censusData, d => d.healthcare), 
-                 d3.max(censusData, d => d.healthcare)])
+        .domain([d3.min(censusData, d => d.healthcare)*0.9, 
+                 d3.max(censusData, d => d.healthcare)*1.1])
         .range([height, 0]);
 
     // Step 3: Create axis functions
@@ -97,12 +97,7 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
     // Step 8: Create event listeners to display and hide the tooltip
     // ==============================
     circlesGroup.on("mouseover", function (data) {
-        toolTip.show(data, this)
-        // d3.select(this)
-        //   .transition()
-        //   .duration(1000)
-        //   .attr("border","5px")
-
+        toolTip.show(data, this);
     })
         // onmouseout event
         .on("mouseout", function (data, index) {
@@ -114,7 +109,7 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
         .attr("class", "aText")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left + 40)
-        .attr("x", 0 - (height / 2))
+        .attr("x", 0 - (height / 2)-70)
         .attr("dy", "1em")
         .attr("class", "axisText")
         .text("Lacks Healthcare(%)");
@@ -122,7 +117,6 @@ d3.csv("assets/data/data.csv").then(function (censusData) {
     chartGroup.append("text")
         .attr("class", "aText")
         .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
-        .attr("class", "axisText")
         .text("In Poverty(%)");
 
 }).catch(function (error) {

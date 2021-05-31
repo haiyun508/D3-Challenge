@@ -87,3 +87,23 @@ Your final product will be assessed on the following metrics:
 - - -
 
 © 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+
+
+var elemEnter = chartGroup.selectAll("g myCircleText")
+        .data(censusData)
+        .enter()
+        .append("g")
+
+    /*Create the circle for each block */
+    var circlesGroup = elemEnter.append("circle")
+        .attr("class", "stateCircle")
+        .attr("cx", d => xLinearScale(d.poverty))
+        .attr("cy", d => yLinearScale(d.healthcare))
+        .attr("r", "15")
+
+    /* Create the text for each block */
+    elemEnter.append("text")
+        .attr("class", "stateText")
+        .attr("x", d => xLinearScale(d.poverty))
+        .attr("y", d => yLinearScale(d.healthcare))
+        .html(function (d) { return d.abbr })

@@ -76,39 +76,26 @@ function renderYAxes(newYScale, yAxis) {
 
 // function used for updating circles group with a transition to
 // new circles
-function renderCirclesX(circlesGroup, newXScale, chosenXAxis) {
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
     circlesGroup.transition()
         .duration(1000)
         .attr("cx", d => newXScale(d[chosenXAxis]))
-        .attr("r", 15)
-
-    return circlesGroup;
-};
-function renderCirclesY(circlesGroup, newYScale, chosenYAxis) {
-    circlesGroup.transition()
-        .duration(1000)
         .attr("cy", d => newYScale(d[chosenYAxis]))
         .attr("r", 15)
 
     return circlesGroup;
 };
-function renderCirclesTextX(circlesText, newXScale,chosenXAxis) {
+// function used for updating circles group text with a transition to new circle text
+
+function renderCirclesText(circlesText, newXScale,chosenXAxis,newYScale,chosenYAxis) {
     circlesText.transition()
         .duration(1000)
         .attr("class", "stateText")
         .attr("x", d => newXScale(d[chosenXAxis]))
-        .html(function (d) { return d.abbr })
-
-    return circlesTextX;
-};
-function renderCirclesTextY(circlesText, newYScale,chosenYAxis) {
-    circlesText.transition()
-        .duration(1000)
-        .attr("class", "stateText")
         .attr("y", d => newYScale(d[chosenYAxis]))
         .html(function (d) { return d.abbr })
 
-    return circlesTextY;
+    return circlesText;
 };
 
 // function used for updating circles group with new tooltip
@@ -297,13 +284,14 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
                 console.log(chosenXAxis)
             }
             
-            // updates x and y scale for new data
+            // updates x scale for new data
             xLinearScale = xScale(censusData, chosenXAxis);
-            // updates x and y axis with transition
+            // updates x axis with transition
             xAxis = renderXAxes(xLinearScale, xAxis);
-            circlesGroup = renderCirclesX(circlesGroup, xLinearScale, chosenXAxis);
-            circlesTextX = renderCirclesTextX(circlesText, xLinearScale, chosenXAxis);
-            
+            // update circles and circle text
+            circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis,yLinearScale, chosenYAxis);
+            circlesText = renderCirclesText(circlesText, xLinearScale, chosenXAxis,yLinearScale, chosenYAxis);
+            // update tooltip
             circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
             if (chosenXAxis === "poverty") {
                 povertyLabel
@@ -347,28 +335,26 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
             var value = d3.select(this).attr("value");
             if (value !== chosenYAxis) {
 
-                // replaces chosenXAxis with value
+                // replaces chosenYAxis with value
                 chosenYAxis = value;
 
                 console.log(chosenYAxis)
             }
             
-            // updates x and y scale for new data
-            // xLinearScale = xScale(censusData, chosenXAxis);
+            // updates y scale for new data
             yLinearScale = yScale(censusData, chosenYAxis);
 
 
-            // updates x and y axis with transition
-            // xAxis = renderXAxes(xLinearScale, xAxis);
+            // updates y axis with transition
             yAxis = renderYAxes(yLinearScale, yAxis);
 
 
-            // updates circles with new x values
-            circlesGroup = renderCirclesY(circlesGroup, yLinearScale, chosenYAxis);
+            // updates circles with new Y values
+            circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis,yLinearScale, chosenYAxis);
             // updates tooltips with new info
             circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
-            circlesTextY = renderCirclesTextY(circlesText, yLinearScale, chosenYAxis);
+            circlesText = renderCirclesText(circlesText, xLinearScale, chosenXAxis,yLinearScale, chosenYAxis);
 
 
             // changes Y classes to change bold text
@@ -411,3 +397,5 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
 }).catch(function (error) {
     console.log(error);
 })
+
+
